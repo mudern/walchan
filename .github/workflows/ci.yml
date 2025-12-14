@@ -4,6 +4,8 @@ name: CI
 on:
   push:
     branches: [ main ]
+    tags:
+      - "v*"
   pull_request:
     branches: [ main ]
 
@@ -33,11 +35,31 @@ jobs:
       - name: cargo clippy (deny warnings)
         run: cargo clippy --all-targets --all-features -- -D warnings
 
-      - name: cargo test (all features)
-        run: cargo test --all-features
+      # Avoid enabling `stress` feature on CI
+      - name: cargo test (default features)
+        run: cargo test
 
       - name: cargo test (doc)
         run: cargo test --doc
 
       - name: cargo package (dry run)
         run: cargo package --no-verify
+
+  release:
+    name: GitHub Release (on tag)
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [test]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          draft: false
+          prerelease: false
