@@ -1,0 +1,25 @@
+[package]
+name = "walchan"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "A persistent mpsc-like channel backed by a write-ahead log (WAL)."
+repository = "https://github.com/mudern/walchan"
+readme = "README.md"
+keywords = ["wal", "channel", "mpsc", "durability", "queue"]
+categories = ["concurrency", "filesystem"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+bincode = "1"
+crc32fast = "1"
+thiserror = "1"
+parking_lot = "0.12"
+
+[dev-dependencies]
+anyhow = "1"
+
+[features]
+default = ["fsync"]
+fsync = []
+stress = []
