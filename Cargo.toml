@@ -8,6 +8,9 @@ repository = "https://github.com/mudern/walchan"
 readme = "README.md"
 keywords = ["wal", "channel", "mpsc", "durability", "queue"]
 categories = ["concurrency", "filesystem"]
+homepage = "https://github.com/mudern/walchan"
+documentation = "https://docs.rs/walchan"
+rust-version = "1.85"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
